@@ -1,0 +1,24 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DeleteRequest]    Script Date: 06/09/2015 13:19:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ===========================================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Delete a request from ChangeRequest table
+-- ===========================================================
+CREATE PROCEDURE [dbo].[SP_DeleteRequest]
+	-- Add the parameters for the stored procedure here
+	 @ID INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	Delete from ChangeRequest where ID=@ID
+END
