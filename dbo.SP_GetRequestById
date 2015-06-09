@@ -1,0 +1,36 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetRequestById]    Script Date: 06/09/2015 13:19:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Get request by ID
+-- =============================================
+CREATE PROCEDURE [dbo].[SP_GetRequestById] 
+	-- Add the parameters for the stored procedure here
+	@ID INT
+	AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT ID,Number
+      ,Opened
+      ,RequestedBy
+      ,CustomerOpenedDte
+      ,Type
+      ,Requestor
+      ,Approval
+      ,StatusID
+      ,AssignedTo
+      ,AssignedGroup
+      ,ShortDescription
+      ,Description
+      from ChangeRequest where ID=@ID
+END
