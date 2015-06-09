@@ -8,7 +8,7 @@ GO
 -- ===========================================================
 -- Author:		Bindhu John
 -- Create date: May 31, 2015
--- Description:	Manage change request
+-- Description:	Get User list
 -- ===========================================================
 CREATE PROCEDURE [dbo].[SP_GetRequestTop] 
 	-- Add the parameters for the stored procedure here
