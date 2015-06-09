@@ -1,0 +1,46 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertNewUser]    Script Date: 06/09/2015 13:18:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ================================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Insert a new user into Users table
+-- ================================================
+CREATE PROCEDURE [dbo].[InsertNewUser]
+	@username varchar(20), 
+	@password varchar(20),
+	@email varchar(75) ,
+	@UserType int,
+	@FName varchar(50),
+	@LName varchar(50)
+	 
+AS
+BEGIN
+	DECLARE @userid int
+	
+	SET NOCOUNT ON;
+	
+    IF EXISTS(SELECT 1 FROM Users WHERE Emailaddress=@Email)
+		BEGIN
+			SELECT 'EMAIL_EXISTS'
+		END
+	ELSE IF EXISTS(SELECT 1 FROM Users WHERE Username=@username )
+		BEGIN
+			SELECT 'USER_EXISTS'
+		END
+	ELSE 
+		BEGIN
+			INSERT INTO Users (Firstname,Lastname,Username,Password,Emailaddress,UserTypeID)
+			VALUES (@FName,@LName,@username,@password,@email,@UserType)
+			set @userid = SCOPE_IDENTITY()
+			
+			 
+			--SELECT 'INSERT_OKAY'
+			SELECT @userid
+		END
+ 
+END
