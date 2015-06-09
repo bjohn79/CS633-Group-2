@@ -1,0 +1,37 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ChangeRequest]    Script Date: 06/09/2015 13:18:58 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ===========================================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Insert a new request into ChangeRequest table
+-- ===========================================================
+CREATE PROCEDURE [dbo].[SP_ChangeRequest] 
+	-- Add the parameters for the stored procedure here
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	
+	SELECT c.ID,c.Number
+      ,c.Opened
+      ,c.RequestedBy
+      ,c.CustomerOpenedDte
+      ,c.Type
+      ,c.Requestor
+      ,c.Approval
+      ,cs.Status_Name Status
+      ,c.AssignedTo
+      ,c.AssignedGroup
+      ,c.ShortDescription
+      ,c.Description
+  FROM ChangeRequest c inner join ChangeStatuses cs on c.StatusID = cs.StatusID 
+END
