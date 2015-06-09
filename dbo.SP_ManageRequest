@@ -1,0 +1,62 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ManageRequest]    Script Date: 06/09/2015 13:20:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ===========================================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Manage change request
+-- ===========================================================
+CREATE PROCEDURE [dbo].[SP_ManageRequest] 
+	-- Add the parameters for the stored procedure here
+	   (@ActionType int,@ID int,@Number varchar(300),@Opened datetime,@RequestedBy varchar(300),
+	   @CustomerOpenedDte datetime,@Type varchar(100),@Requestor varchar(250),@Approval varchar(100),@StatusID int,@AssignedTo int,
+	   @AssignedGroup varchar(200),@ShortDescription varchar(50),@Description nvarchar(max))
+	   AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	if(@ActionType=1)
+	begin
+	Insert into ChangeRequest(Number
+      ,Opened
+      ,RequestedBy
+      ,CustomerOpenedDte
+      ,Type
+      ,Requestor
+      ,Approval
+      ,StatusID
+      ,AssignedTo
+      ,AssignedGroup
+      ,ShortDescription
+      ,Description) values(@Number,@Opened,@RequestedBy,
+	   @CustomerOpenedDte,@Type,@Requestor,@Approval,@StatusID,@AssignedTo,@AssignedGroup,
+	   @ShortDescription,@Description)
+		
+		End 
+		
+		
+			if(@ActionType=2)
+	begin
+	Update ChangeRequest set Number=@Number
+      ,Opened=@Opened
+      ,RequestedBy=@RequestedBy
+      ,CustomerOpenedDte=@CustomerOpenedDte
+      ,Type=@Type
+      ,Requestor=@Requestor
+      ,Approval=@Approval
+      ,StatusID=@StatusID
+      ,AssignedTo=@AssignedTo
+      ,AssignedGroup=@AssignedGroup
+      ,ShortDescription=@ShortDescription
+      ,Description=@Description
+      where ID=@ID	
+		End 
+
+END
