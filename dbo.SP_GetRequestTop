@@ -1,0 +1,25 @@
+USE [ChangeRequest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetRequestTop]    Script Date: 06/09/2015 13:20:00 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ===========================================================
+-- Author:		Bindhu John
+-- Create date: May 31, 2015
+-- Description:	Manage change request
+-- ===========================================================
+CREATE PROCEDURE [dbo].[SP_GetRequestTop] 
+	-- Add the parameters for the stored procedure here
+
+	AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT distinct u.UserID ,u.Firstname+' '+u.Lastname Name
+      from Users u 
+END
