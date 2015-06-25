@@ -1,0 +1,439 @@
+<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="WebSite.master.vb" Inherits="ChangeRequest.WebSite" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<style type="text/css">
+.required
+{ 
+   height:25px;
+}
+.error
+{
+    color:Red;
+    font-weight:bold;
+}
+.inline-small-label label
+{
+    font-size:12px;
+    font-weight:bold;
+}
+</style>
+    <!--[if IE 7]>
+<style>
+.search{
+	padding-right:5px !important;
+	padding-top:7px !important;
+}
+.search .searchbx
+{
+	padding-left:0px;
+	border:none;
+	background:none;
+   width: 206px !important;
+}
+.searchBtn {
+	top:2px !important;
+}
+</style>
+<![endif]-->
+    <!--[if IE 8]>
+<style>
+.search{
+	padding-right:5px !important;
+	padding-top:3px !important;
+	}
+.search .searchbx
+{
+	border:none;
+	background:none;
+	padding-left:0px;
+   width: 206px !important;
+}
+.searchBtn {
+	top:5px !important;
+}
+</style>
+<![endif]-->
+    <title>Change Request</title>
+    <!------ Css Style starts ------>
+    <link rel="stylesheet" href="/Styles/style.css" />
+    <%--<link rel="stylesheet" href="/Styles/buttons.css" />--%>
+     <script type="text/javascript"  src="../Scripts/Request/jquery-1.4.4.min.js"></script>
+     <script type="text/javascript"  src="../Scripts/jquery.cookie.js"></script>
+ <%--   <link rel="stylesheet" href="../css/bootstrap.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />--%>
+    <!------ Css Style ends ------>
+    <!------ Javascript starts ------>
+   
+   
+    <script type="text/javascript">
+
+        //the main function, call to the effect object
+        /*
+        function init(){
+        var stretchers = document.getElementsByClassName('stretcher'); //div that stretches
+        var toggles = document.getElementsByClassName('tab'); //h3s where I click on
+        //accordion effect
+        var myAccordion = new fx.Accordion(
+        toggles, stretchers, {opacity: false,  height: true, duration: 400, transition: fx.sineInOut}
+        );
+        //hash functions
+        var found = true; // if true, accordion starts closed on load else if false first one starts open on load
+        toggles.each(function(h3, i){
+        var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
+        if (window.location.href.indexOf(h3.title) > 0) {
+        myAccordion.showThisHideOpen(div);
+        found = true;
+        }
+        });
+        if (!found) myAccordion.showThisHideOpen(stretchers[0]);
+        }
+        */
+
+        function init() {
+
+            var stretchers = document.getElementsByClassName('stretcher'); //div that stretches
+            var toggles = document.getElementsByClassName('tab'); //h3s where I click on
+
+            //accordion effect
+            var myAccordion = new fx.Accordion(
+			toggles, stretchers, { opacity: true, height: true, duration: 400 }
+		);
+
+            //hash functions
+            var found = false;
+            toggles.each(function (h3, i) {
+                var div = Element.find(h3, 'nextSibling'); //element.find is located in prototype.lite
+                if (window.location.href.indexOf(h3.title) > 0) {
+                    myAccordion.showThisHideOpen(div);
+                    found = true;
+                }
+            });
+            if (!found) myAccordion.showThisHideOpen(stretchers[0]);
+        }
+
+    </script>
+    <!------ Javascript ends ------>
+    <%--<link rel="shortcut icon" href="../images/phobosweb/fevi.ico" type="image/x-icon" />--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+  
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+    </asp:ToolkitScriptManager>
+    <%--<asp:ToolkitScriptManager runat="server" ID="script1"  EnablePageMethods="false">
+        <Scripts>
+            <asp:ScriptReference Path="~/Scripts/Request/jquery-1.4.4.min.js" />
+            
+ 
+        </Scripts>
+    </asp:ToolkitScriptManager>--%>
+   
+    <asp:HiddenField ID="hdnSessionTimeout" Value="" runat="server" />
+    <asp:HiddenField runat="server" ID="hdnid" />
+    <header>
+        <!--Header section start-->
+    <div class="wrapper">
+        <span class="top_bg">
+           <%-- <ul id="vertical-navigation">
+                <li class=""><a href="#">
+                    <%--<img src="../images/images/welcome_arrow.png" /></a>
+                    <ul>
+                        <li class=""><asp:LinkButton ID="lnkbtnlogout" runat="server" OnClick="  >
+                            <%--<img src="../images/images/logout_icon.png" />
+                            Log Out</asp:LinkButton> </li>
+                    </ul>
+                </li>
+            </ul>--%>
+            <h1>
+
+              <asp:LinkButton ID="lnkbtnlogout" runat="server" OnClientClick="return confirm('Are you sure you want to log out?');"  OnClick="lnkbtnlogout_Click" >
+                             
+                            Log Out</asp:LinkButton>
+             
+            </h1>
+            <h1>
+                |
+            </h1>
+            <h1>
+                Welcome <span id="LoginUserName" runat="server" > </span>
+            </h1>
+        </span>
+       <div class="header_part">
+            <div class="logo"></div>
+            <div class="head_right">
+                <span class="btn">           
+                        <%--<asp:HyperLink ID="hlnkmymessages" runat="server" ToolTip="Messages"  NavigateUrl="~/phobosweb/email-messages.aspx">
+                        <h5>Messages</h5></asp:HyperLink>--%>                     
+                </span>
+                
+                <span class="btn">                     
+                        <%--<a title="My Account" id="active-9" href="../phobosweb/user-profile.aspx">
+                         <h5>My Account</h5></a>--%>
+                </span><span class="btn">
+                 
+                        <%--<a title="Calendar"  href="<%= ResolveUrl("~/phobosweb/calendar.aspx")%>">
+                          <h5>Calendar</h5></a>--%>
+                </span>
+            </div>
+        </div>
+        <!--headermain-->
+        <!--Header section end -->
+        <!--Middle Section Start-->
+     <div class="content_part content_part2">
+					<div class="left_contentpart"> 
+						<div id="wrapper">
+							<div  id="left">
+								<div id="button" runat="server" ></div>
+							<div class="sidemenu"><h3 title="Request"><a href="/Request/ChangeRequest.aspx"><span class="side_img"></span><span>Request</span></a></h3></div>              
+                <%--<div class="sidemenu"><h3 title="libraries"><a href="../phobosweb/train-libraries.aspx"><span class="side_img"><img src="../images/librariestab_icon.png"/></span><span>Libraries</span></a></h3></div>");
+                <div class="sidemenu"><h3 title="test"><a href="../TestBuilder/TestList.aspx"><span class="side_img"><img src="../images/testtab_icon.png"/></span><span>Test</span></a></h3></div>");
+                <div class="sidemenu"><h3 title="users"><a href="../Users/UserList.aspx"><span class="side_img"><img src="../images/userstab_icon.png"/></span><span>Users</span></a></h3></div>");
+                <div class="sidemenu"><h3 title="reports"><a href="../phobosweb/manage-reports.aspx"><span class="side_img"><img src="../images/reportstab_icon.png"/></span><span>Reports<span></a></h3></div>");
+            
+						--%>	
+								<br />
+							</div>
+							<div id="right">
+								   <asp:ContentPlaceHolder ID="maincontent" runat="server">
+                            </asp:ContentPlaceHolder>
+								
+							</div>
+						</div>
+					</div>
+					<%--<script type="text/javascript">
+					    Element.cleanWhitespace('content1');
+					    init();
+					</script>--%>
+					</div>
+					
+				</div>
+                         
+                            <!--Middle Section End-->
+                      <%--  </div>
+                    </div>
+                </div>
+            </div>
+        </div>--%>
+   
+     
+       
+        <!-- For fixing Story ID:4771366 END -->
+        <input type="hidden" id="hdnpopTrainerPop" runat="server" />
+        <div id="confMsg_containerMain" style="display:none">
+        <div id="confMsg_container">
+            <div id="divtransparency" class="transparency">
+                <div style="float: right; margin: 5px;">
+                    <asp:Image ID="x" runat="server" ImageUrl="~/images/close_btn_normal.gif" style="display:none" onclick="javascript:closeConfirmMessage()"/>
+                </div>
+            </div>
+            <div id="content" style="width: 410px; text-align: center; padding-right: 25px;">
+                <div style="float: none; display: inline-block; text-align: left; padding-bottom: 8px;">
+                    <img alt="" id="Success" src="images/tick_mark.png" />
+                    <span id="spanConfirmMsg" style="text-align: left; line-height: normal;"></span>
+                </div>
+                <div style="display: block; margin-top: -27px; float: none; clear: both; padding-right: 0px;
+                    text-align: center;">
+                    <input id="btnclose" class="saveBtn" type="button" style="cursor:pointer" onclick="return closeConfirmMessage()"
+                        value="Close">
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        
+   </header>
+    </form>
+    <!-- For Fixing Story ID :4370220 Center the footer section END -->
+</body>
+</html>
+<script type="text/javascript">
+
+    function activatephobosSearch(e) {
+        var evt = e ? e : window.event;
+
+        if (evt.keyCode == 13) {
+            searchphobos();
+            return false;
+        }
+    }
+
+
+
+    function disableEnterKey(e) {
+        var key;
+
+        if (window.event)
+            key = window.event.keyCode; //IE
+        else
+            key = e.which; //firefox
+        return (key != 13);
+    }
+    document.onkeypress = disableEnterKey; 
+</script>
+<script type="text/javascript">
+    function RemoveEdit() {
+        $(".widget").show();
+    }
+    function GoAddEdit() {
+        $(".widget").hide();
+    }
+    function SaveCookie(msg) {
+        $.cookie("example", msg.toString());
+        Redirect();
+    }
+    function SubmitCookie(msg) {
+        $.cookie("example", msg.toString());
+
+    }
+    $(document).ready(function () {
+        if ($.cookie("example") != null && $.cookie("example") != "") {
+
+            switch ($.cookie("example")) {
+                case "1":
+                    SuccessMessage("Your Request has been inserted successfully!.")
+                    break;
+                case "2":
+                    SuccessMessage("Your Request has been updated successfully!.")
+                    break;
+                case "3":
+                    SuccessMessage("Your Request has been deleted successfully!.")
+                    break;
+                case "4":
+                    SuccessMessage("Your Request has been submitted successfully!.")
+                    break;
+                case "5":
+                    SuccessMessage("Your Request has been approved successfully!.")
+                    break;
+                case "6":
+                    SuccessMessage("Your Request has been rejected successfully!.")
+                    break;
+                case "7":
+                    SuccessMessage("Your Request has been assigned successfully!.")
+                    break;
+                case "8":
+                    SuccessMessage("Your Request has been work completed successfully!.")
+                    break;
+                case "9":
+                    SuccessMessage("Your Request has been completed successfully!.")
+                    break;
+            }
+            $.removeCookie("example");
+        }
+
+    });
+    function Redirect() {
+        $(".widget").show();
+        location.href = '/Request/ChangeRequest.aspx';
+    }
+    function SuccessMessage(Msg) {
+        $("#maincontent_pnlSuccess").show();
+        $("#maincontent_LabSuccess").html(Msg);
+        setTimeout(function () { CloseSuccess() }, 5000);
+    }
+    function InformationMessage(Msg) {
+        if (Msg != "") {
+            $(".Info").show();
+            $(".Infomsg").html(Msg);
+            $(".Info1").show();
+            $(".Infomsg1").html(Msg);
+        }
+        else {
+            $(".Info").hide();
+            $(".Infomsg").html('');
+            $(".Info1").hide();
+            $(".Infomsg1").html('');
+        }
+    }
+    function CloseSuccess() {
+        $("#maincontent_pnlSuccess").hide();
+        $("#maincontent_LabSuccess").html('');
+    }
+
+    function viewall(score, status) {
+        var str = "<span style='font-size:16px'>Score</span>&nbsp&nbsp&nbsp&nbsp<span style='font-size:16px;margin-left:30px'>Risk</span><br/><br/><span>" + score + "</span>&nbsp&nbsp&nbsp&nbsp<span style='margin-left:70px'>" + status + "</span>";
+        $("#spanConfirmMsg").html(str);
+        $("#confMsg_containerMain").removeAttr("style");
+        $("#divConfirmMsgBackground").removeAttr("style");
+    }
+    function closeConfirmMessage() {
+        $("#confMsg_containerMain").attr("style", "display:none");
+        $("#confMsg_containerMain").fadeOut(1000)
+    }
+    function SportEventCreatedConfirmation(displaymsg) {
+
+        $("#spanConfirmMsg").html(displaymsg);
+        $("#confMsg_containerMain").removeAttr("style");
+        $("#divConfirmMsgBackground").removeAttr("style");
+    } 
+</script>
+<%--<script type="text/javascript" >
+    function GetRadioButtonListSelectedValue(radioButtonList) {
+        alert(radioButtonList)
+        //        for (var i = 0; i < radioButtonList.rows.length; ++i) {
+
+        //            if (radioButtonList.rows[i].cells[0].firstChild.checked) {
+
+        //                alert(radioButtonList.rows[i].cells[0].firstChild.value);
+
+        //            }
+
+        //        }
+
+    }
+    function SetComplex() {
+        alert($("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl07_EditFormControl_ChkcVeryComplex_0 checked").val())
+    }
+</script>
+<script type="text/javascript" >
+    function GetRBLCSelectedValue(radioButtonList) {
+        //        alert(radioButtonList)
+        for (var i = 0; i < radioButtonList.rows.length; ++i) {
+//            alert( radioButtonList.rows.length);
+            if (radioButtonList.rows[i].cells[0].firstChild.checked) {
+                $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl07_EditFormControl_HCcomplex").val('');
+                $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl09_EditFormControl_HCcomplex").val(radioButtonList.rows[i].cells[0].firstChild.value);
+//                alert(radioButtonList.rows[i].cells[0].firstChild.value);
+
+            }
+
+        }
+    }
+                function GetRBLVSelectedValue(radioButtonList) {
+                    //        alert(radioButtonList)
+                    for (var i = 0; i < radioButtonList.rows.length; ++i) {
+
+                        if (radioButtonList.rows[i].cells[0].firstChild.checked) {
+                            $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl07_EditFormControl_HFVerify").val('');
+                            $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl09_EditFormControl_HFVerify").val(radioButtonList.rows[i].cells[0].firstChild.value);
+                          //  alert(radioButtonList.rows[i].cells[0].firstChild.value);
+
+                        }
+
+                    }
+                }
+                function GetRBLDSelectedValue(radioButtonList) {
+                    //        alert(radioButtonList)
+                    for (var i = 0; i < radioButtonList.rows.length; ++i) {
+
+                        if (radioButtonList.rows[i].cells[0].firstChild.checked) {
+                            $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl07_EditFormControl_HFdiffcult").val('');
+                            $("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl09_EditFormControl_HFdiffcult").val(radioButtonList.rows[i].cells[0].firstChild.value);
+//                            alert(radioButtonList.rows[i].cells[0].firstChild.value);
+
+                        }
+
+                    }
+
+                }
+    function SetComplex() {
+        alert($("#ctl00_maincontent_RG_ChnageReuquest_ctl00_ctl07_EditFormControl_ChkcVeryComplex_0 checked").val())
+    }
+</script>--%>
